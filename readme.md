@@ -38,11 +38,11 @@ Raw economic indicators were ingested from World Bank datasets and normalized fo
 ## 📂 File Structure
 ```bash
 ├── data/
-│   ├── raw/                        # Original World Bank CSVs
+│   ├── Datasets.zip                # Original World Bank and Fedral Reserve CSVs
 │   └── malaysia_consolidated.csv   # Cleaned dataset for modeling
 ├── notebooks/
 │   ├── DataCleaning.ipynb          # Data ingestion and cleaning pipeline
-│   └── Analysis_Model.ipynb        # OLS regression and GARCH modeling
+│   └── Analysis.ipynb              # OLS regression and GARCH modeling
 ├── report/
-│   └── Research_Report.pdf         # Full academic report with literature review
+│   └── Analysis_Report.pdf         # Full academic report with literature review
 └── README.md                       # Project documentation
