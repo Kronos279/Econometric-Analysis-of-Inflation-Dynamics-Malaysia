@@ -25,7 +25,7 @@ Raw economic indicators were ingested from World Bank datasets and normalized fo
 * **Cleaning:** Implemented logic to handle missing values (NaNs) and align disparate time-series frequencies.
 * **Transformation:** Merged separate indicators into a consolidated time-series dataset (`malaysia_consolidated_data_partial.csv`) indexed by Year.
 
-### 2. Econometric Analysis (`updated.ipynb`)
+### 2. Econometric Analysis (`analysis.ipynb`)
 * **Stationarity Testing:** Applied **Augmented Dickey-Fuller (ADF)** tests to confirm all variables were $I(0)$ or $I(1)$ before modeling.
 * **Structural Analysis (OLS):**
     * Modeled GDP Growth as a function of Inflation, Money Supply (M2), and Remittances.
