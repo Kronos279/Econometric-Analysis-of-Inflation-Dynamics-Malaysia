@@ -1,0 +1,114 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "vconcat": [
+    {
+      "title": "All-items HICP Trend Over Time",
+      "data": {
+        "url": "https://media.githubusercontent.com/media/Kronos279/HICP_dataset/refs/heads/main/hicp_data_small.csv",
+        "format": {"type": "csv"}
+      },
+      "width": 800,
+      "height": 300,
+      "transform": [
+        {"filter": "datum.Commodity_Group === 'All-items HICP (COICOP 00)'"}
+      ],
+      "mark": {"type": "line", "strokeWidth": 3, "color": "#E15759"},
+      "encoding": {
+        "x": {"field": "Date", "type": "temporal", "title": "Date"},
+        "y": {"field": "VALUE", "type": "quantitative", "title": "HICP Index (2015=100)"},
+        "tooltip": [
+          {"field": "Date", "type": "temporal", "title": "Month/Year"},
+          {"field": "Commodity_Group", "type": "nominal"},
+          {"field": "VALUE", "type": "quantitative", "title": "HICP Value", "format": ".1f"}
+        ]
+      }
+    },
+    {
+      "title": "Key Sub-groups HICP Trend (Yearly Average, Small Multiples)",
+      "data": {
+        "url": "https://media.githubusercontent.com/media/Kronos279/HICP_dataset/refs/heads/main/hicp_data_small.csv",
+        "format": {"type": "csv"}
+      },
+      "width": 350,
+      "height": 200,
+      "transform": [
+        {
+          "filter": "datum.Commodity_Group === 'Food (COICOP 01.1)' || datum.Commodity_Group === 'Housing, water, electricity, gas and other fuels (COICOP 04)' || datum.Commodity_Group === 'Clothing and footwear (COICOP 03)' || datum.Commodity_Group === 'Transport (COICOP 07)'"
+        },
+        {"calculate": "year(datum.Date)", "as": "Year"},
+        {"aggregate": [{"op": "mean", "field": "VALUE", "as": "VALUE"}], "groupby": ["Year", "Commodity_Group"]}
+      ],
+      "facet": {"field": "Commodity_Group", "type": "nominal"},
+      "columns": 2,
+      "spec": {
+        "mark": {"type": "line", "point": true, "strokeWidth": 2},
+        "encoding": {
+          "x": {"field": "Year", "type": "ordinal", "title": "Year"},
+          "y": {"field": "VALUE", "type": "quantitative", "title": "Avg HICP"},
+          "tooltip": [
+            {"field": "Year", "type": "ordinal"},
+            {"field": "Commodity_Group", "type": "nominal"},
+            {"field": "VALUE", "type": "quantitative", "title": "Average HICP"}
+          ]
+        }
+      }
+    },
+    {
+      "title": "Yearly Average HICP (Top 5 Groups)",
+      "data": {
+        "url": "https://media.githubusercontent.com/media/Kronos279/HICP_dataset/refs/heads/main/hicp_data_small.csv",
+        "format": {"type": "csv"}
+      },
+      "width": 800,
+      "height": 300,
+      "transform": [
+        {
+          "filter": "datum.Commodity_Group === 'Food (COICOP 01.1)' || datum.Commodity_Group === 'Housing, water, electricity, gas and other fuels (COICOP 04)' || datum.Commodity_Group === 'Clothing and footwear (COICOP 03)' || datum.Commodity_Group === 'Transport (COICOP 07)' || datum.Commodity_Group === 'All-items HICP (COICOP 00)'"
+        },
+        {"calculate": "year(datum.Date)", "as": "Year"}
+      ],
+      "mark": "bar",
+      "encoding": {
+        "y": {"field": "Commodity_Group", "type": "nominal", "title": "Commodity Group"},
+        "x": {"aggregate": "mean", "field": "VALUE", "type": "quantitative", "title": "Mean HICP"},
+        "color": {"field": "Commodity_Group", "type": "nominal"},
+        "tooltip": [
+          {"field": "Commodity_Group", "type": "nominal"},
+          {"aggregate": "mean", "field": "VALUE", "type": "quantitative", "title": "Mean HICP"}
+        ]
+      }
+    },
+    {
+      "title": "HICP Value Distribution (Boxplot)",
+      "data": {
+        "url": "https://media.githubusercontent.com/media/Kronos279/HICP_dataset/refs/heads/main/hicp_data_small.csv",
+        "format": {"type": "csv"}
+      },
+      "width": 800,
+      "height": 300,
+      "transform": [
+        {
+          "filter": "datum.Commodity_Group === 'Food (COICOP 01.1)' || datum.Commodity_Group === 'Housing, water, electricity, gas and other fuels (COICOP 04)' || datum.Commodity_Group === 'Clothing and footwear (COICOP 03)' || datum.Commodity_Group === 'Transport (COICOP 07)' || datum.Commodity_Group === 'All-items HICP (COICOP 00)'"
+        }
+      ],
+      "mark": {
+        "type": "boxplot",
+        "extent": "min-max"
+      },
+      "encoding": {
+        "x": {
+          "field": "Commodity_Group",
+          "type": "nominal",
+          "title": "Commodity Group",
+          "axis": {"labelAngle": 45}
+        },
+        "y": {"field": "VALUE", "type": "quantitative", "title": "HICP Value"},
+        "color": {"field": "Commodity_Group", "type": "nominal"},
+        "tooltip": [
+          {"field": "Commodity_Group", "type": "nominal"},
+          {"field": "VALUE", "type": "quantitative"}
+        ]
+      }
+    }
+  ]
+}
